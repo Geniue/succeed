@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import Logo from './Logo.jsx'
-
-const links = [
-  { to: '/', label: 'Home' },
-  { to: '/about', label: 'About Us' },
-]
+import { useSite } from '../context/SiteContext.jsx'
 
 export default function Navbar() {
+  const { site } = useSite()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  const links = site.navigation?.items ?? []
+  const cta = site.navigation?.cta
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -24,16 +24,16 @@ export default function Navbar() {
       }`}
     >
       <nav className="container-page flex items-center justify-between h-20">
-        <Link to="/" aria-label="Succeed home">
+        <Link to="/" aria-label={`${site.brand_name} home`}>
           <Logo />
         </Link>
 
         <div className="hidden md:flex items-center gap-10">
           {links.map((l) => (
             <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === '/'}
+              key={l.url}
+              to={l.url}
+              end={l.url === '/'}
               className={({ isActive }) =>
                 `text-sm font-medium tracking-wide transition-colors ${
                   isActive ? 'text-ink-900' : 'text-ink-400 hover:text-ink-900'
@@ -43,12 +43,14 @@ export default function Navbar() {
               {l.label}
             </NavLink>
           ))}
-          <Link
-            to="/#contact"
-            className="rounded-full bg-ink-900 text-white text-sm font-medium px-5 py-2.5 hover:bg-ink-700 transition-colors"
-          >
-            Get in Touch
-          </Link>
+          {cta && (
+            <Link
+              to={cta.url}
+              className="rounded-full bg-ink-900 text-white text-sm font-medium px-5 py-2.5 hover:bg-ink-700 transition-colors"
+            >
+              {cta.label}
+            </Link>
+          )}
         </div>
 
         <button
@@ -75,22 +77,24 @@ export default function Navbar() {
           <div className="container-page py-4 flex flex-col gap-4">
             {links.map((l) => (
               <NavLink
-                key={l.to}
-                to={l.to}
-                end={l.to === '/'}
+                key={l.url}
+                to={l.url}
+                end={l.url === '/'}
                 onClick={() => setOpen(false)}
                 className="text-base font-medium text-ink-900 py-1"
               >
                 {l.label}
               </NavLink>
             ))}
-            <Link
-              to="/#contact"
-              onClick={() => setOpen(false)}
-              className="rounded-full bg-ink-900 text-white text-sm font-medium px-5 py-3 text-center"
-            >
-              Get in Touch
-            </Link>
+            {cta && (
+              <Link
+                to={cta.url}
+                onClick={() => setOpen(false)}
+                className="rounded-full bg-ink-900 text-white text-sm font-medium px-5 py-3 text-center"
+              >
+                {cta.label}
+              </Link>
+            )}
           </div>
         </div>
       )}
