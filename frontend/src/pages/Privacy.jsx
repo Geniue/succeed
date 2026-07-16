@@ -1,8 +1,11 @@
 import { usePage } from '../hooks/usePage.js'
+import { useDocumentMeta } from '../hooks/useDocumentMeta.js'
 import { PageLoading, PageError } from '../components/PageState.jsx'
 
 export default function Privacy() {
   const { page, status } = usePage('privacy')
+
+  useDocumentMeta({ title: page?.seo_title, description: page?.seo_description })
 
   if (status === 'loading') return <PageLoading />
   if (status === 'error' || !page) return <PageError />

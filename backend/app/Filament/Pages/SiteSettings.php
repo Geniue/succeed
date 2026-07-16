@@ -73,14 +73,17 @@ class SiteSettings extends Page
                             ->url()
                             ->maxLength(255),
 
-                        FileUpload::make('logo_path')
-                            ->label('Website logo')
-                            ->disk('public')
-                            ->directory('site/branding')
-                            ->visibility('public')
-                            ->image()
-                            ->maxSize(4096)
-                            ->columnSpanFull(),
+                        // Website logo upload — temporarily disabled per request.
+                        // Re-enable by uncommenting; requires `php artisan storage:link`
+                        // to have been run so uploaded files are browser-accessible.
+                        // FileUpload::make('logo_path')
+                        //     ->label('Website logo')
+                        //     ->disk('public')
+                        //     ->directory('site/branding')
+                        //     ->visibility('public')
+                        //     ->image()
+                        //     ->maxSize(4096)
+                        //     ->columnSpanFull(),
                     ])
                     ->columns(2),
 
@@ -104,35 +107,37 @@ class SiteSettings extends Page
                     ])
                     ->columns(2),
 
-                Section::make('Header Navigation')
-                    ->description('Manage the main website navigation and header call-to-action.')
-                    ->schema([
-                        Repeater::make('navigation.items')
-                            ->label('Navigation links')
-                            ->schema([
-                                TextInput::make('label')
-                                    ->required()
-                                    ->maxLength(100),
-
-                                TextInput::make('url')
-                                    ->required()
-                                    ->maxLength(255),
-                            ])
-                            ->columns(2)
-                            ->addActionLabel('Add navigation link')
-                            ->collapsible()
-                            ->reorderable(),
-
-                        TextInput::make('navigation.cta.label')
-                            ->label('CTA label')
-                            ->required()
-                            ->maxLength(100),
-
-                        TextInput::make('navigation.cta.url')
-                            ->label('CTA URL')
-                            ->required()
-                            ->maxLength(255),
-                    ]),
+                // Header Navigation — temporarily disabled per request.
+                // Re-enable by uncommenting this whole section.
+                // Section::make('Header Navigation')
+                //     ->description('Manage the main website navigation and header call-to-action.')
+                //     ->schema([
+                //         Repeater::make('navigation.items')
+                //             ->label('Navigation links')
+                //             ->schema([
+                //                 TextInput::make('label')
+                //                     ->required()
+                //                     ->maxLength(100),
+                //
+                //                 TextInput::make('url')
+                //                     ->required()
+                //                     ->maxLength(255),
+                //             ])
+                //             ->columns(2)
+                //             ->addActionLabel('Add navigation link')
+                //             ->collapsible()
+                //             ->reorderable(),
+                //
+                //         TextInput::make('navigation.cta.label')
+                //             ->label('CTA label')
+                //             ->required()
+                //             ->maxLength(100),
+                //
+                //         TextInput::make('navigation.cta.url')
+                //             ->label('CTA URL')
+                //             ->required()
+                //             ->maxLength(255),
+                //     ]),
 
                 Section::make('Footer')
                     ->description('Manage the footer description, links, legal links, and copyright text.')
